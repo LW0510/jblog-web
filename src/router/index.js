@@ -77,19 +77,25 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+
   if (getToken()) { // 有token
     if (to.path === '/login') {
       next({path: '/'})
     } else {
-      if (store.state.username.length === 0) {
-        store.dispatch('getUserInfo').then(data => { //获取用户信息
-          next()
-        }).catch(() => {
-          next({path: '/'})
-        })
-      } else {
+      // if (store.state.username.length === 0) {
+      //   store.dispatch('getUserInfo').then(data => { //获取用户信息
+      //     next()
+      //   }).catch(() => {
+      //     // next({path: '/'})
+      //     Message({
+      //       type: 'warning',
+      //       showClose: true,
+      //       message: '获取用户信息失败'
+      //     })
+      //   })
+      // } else {
         next()
-      }
+      // }
     }
   } else { // 无token
     if (to.matched.some(r => r.meta.requireLogin)) {
@@ -102,7 +108,8 @@ router.beforeEach((to, from, next) => {
       next();
     }
   }
-})
+}
+)
 
 
 export default router

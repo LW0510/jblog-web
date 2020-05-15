@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
-import {getToken, setToken, removeToken} from '@/request/token'
+import {getToken, setToken, removeToken} from '@/request/auth'
 import {login, getUserInfo, logout, register} from '@/api/login'
 
 Vue.use(Vuex);
@@ -32,10 +32,9 @@ export default new Vuex.Store({
   },
   actions: {
     // 登录
-    login({commit}, user) {
+    login({commit}, loginInfo) {
       return new Promise((resolve, reject) => {
-        login(user.username, user.password,
-          user.code,user.uuid).then(data => {
+        login(loginInfo).then(data => {
           setToken(data.token)
           commit('SET_TOKEN', data.token)
           resolve()
@@ -49,16 +48,17 @@ export default new Vuex.Store({
       let that = this
       return new Promise((resolve, reject) => {
         getUserInfo().then(data => {
-          if (data.data) {
-            commit('SET_ACCOUNT', data.data.username)
-            commit('SET_NAME', data.data.nickname)
-            commit('SET_AVATAR', data.data.avatar)
-            commit('SET_ID', data.data.id)
+          if (data.code === 200 ) {
+            commit('SET_ACCOUNT', data.user.userName)
+            commit('SET_NAME', data.user.nickName)
+            commit('SET_AVATAR', data.user.avatar)
+            commit('SET_ID', data.user.userId)
           } else {
             commit('SET_ACCOUNT', '')
             commit('SET_NAME', '')
             commit('SET_AVATAR', '')
             commit('SET_ID', '')
+            //用户信息不存在，删除token
             removeToken()
           }
           resolve(data)

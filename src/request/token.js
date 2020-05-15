@@ -3,7 +3,6 @@ export function getToken() {
 }
 
 export function setToken(token) {
-  debugger;
   return window.sessionStorage.setItem('token',token)
 }
 

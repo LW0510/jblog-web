@@ -1,4 +1,5 @@
 import request from '@/request'
+import Qs  from "qs";
 
 export function register(username, nickname, password) {
   const data = {
@@ -13,17 +14,14 @@ export function register(username, nickname, password) {
   })
 }
 
-export function login(username, password,code,uuid) {
-  const data = {
-    username,
-    password,
-    code,
-    uuid
-  }
+export function login(loginInfo) {
   return request({
     url: '/login',
     method: 'post',
-    data
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    data: Qs.stringify(loginInfo)
   })
 }
 
@@ -36,7 +34,6 @@ export function logout() {
 
 export function getUserInfo() {
   return request({
-    // url: '/user/current',
     url: '/getInfo',
     method: 'get'
   })

@@ -97,6 +97,16 @@ export default {
           that.$store
             .dispatch("login", that.userForm)
             .then(() => {
+               //获取用户信息
+               that.$store.dispatch('getUserInfo').then(data =>{
+               }).catch(() => {
+                that.$message({
+                message: "获取用户信息失败",
+                type: "error",
+                showClose: true
+              });
+               });
+
               that.$router.go(-1);
             })
             .catch(error => {
