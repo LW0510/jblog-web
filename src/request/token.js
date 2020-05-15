@@ -1,12 +1,12 @@
 export function getToken() {
-  return window.localStorage.token
+  return window.sessionStorage.getItem('token')
 }
 
 export function setToken(token) {
   debugger;
-  return window.localStorage.token = token
+  return window.sessionStorage.setItem('token',token)
 }
 
 export function removeToken() {
-  return window.localStorage.removeItem('token')
+  return window.sessionStorage.removeItem('token')
 }

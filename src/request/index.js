@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {Message} from 'element-ui'
 import store from '@/store'
-import {getToken} from '@/request/auth'
+import {getToken} from '@/request/token'
 
 const service = axios.create({
   baseURL: '/',
