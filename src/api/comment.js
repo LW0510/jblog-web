@@ -3,8 +3,11 @@ import request from '@/request'
 
 export function getCommentsByArticle(id) {
   return request({
-    url: `/comments/article/${id}`,
-    method: 'get'
+    url: `/comments/article/info`,
+    method: 'get',
+    params: {
+      id
+    }
   })
 }
 

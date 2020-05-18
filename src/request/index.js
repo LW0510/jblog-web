@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {Message} from 'element-ui'
+import {Notification,Message,MessageBox} from 'element-ui'
 import store from '@/store'
 import {getToken} from '@/request/auth'
 
@@ -22,9 +22,9 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
   response => {
     //全局统一处理 Session超时
-    if (response.headers['session_time_out'] == 'timeout') {
-      store.dispatch('fedLogOut')
-    }
+    // if (response.headers['session_time_out'] == 'timeout') {
+    //   store.dispatch('fedLogOut')
+    // }
 
     const code = response.data.code;
 
@@ -38,29 +38,31 @@ service.interceptors.response.use(
 
       //401 用户未登录
       if (code === 401) {
-        console.info("用户未登录")
-        Message({
-          type: 'warning',
-          showClose: true,
-          message: '未登录或登录超时，请重新登录哦'
-        })
+        //当前用户已经登录过，token过期了
+        if(getToken()){
+          MessageBox.confirm(
+            '登录状态已过期，您可以继续留在该页面，或者重新登录',
+            '系统提示',
+            {
+              confirmButtonText: '重新登录',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }
+          ).then(() => {
+            store.dispatch('fedLogOut').then(() => {
+              location.reload() // 为了重新实例化vue-router对象 避免bug
+            })
+          })
+        }else{
+        return Promise.reject('权限不够哦'); 
+        }
 
-        // store.dispatch('fedLogOut')
-
-        return Promise.reject('error');
+      }else if(code !== 200){
+        // Notification.error({
+        //   title: response.data.msg
+        // })
+        return Promise.reject(response.data.msg); 
       }
-
-      //70001 权限认证错误
-      // if (res.code === 70001) {
-      //   console.info("权限认证错误")
-      //   Message({
-      //     type: 'warning',
-      //     showClose: true,
-      //     message: '你没有权限访问哦'
-      //   })
-      //   return Promise.reject('error');
-      // }
-      return Promise.reject(res.msg);
     } else {
       return response.data;
     }

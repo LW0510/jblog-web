@@ -1,65 +1,70 @@
 <template>
-  <div id="login" v-title data-title="登录 - For Fun">
-    <!--<video preload="auto" class="me-video-player" autoplay="autoplay" loop="loop">
+  <div>
+    <div class="background">
+      <img :src="imgSrc" width="100%" height="100%" alt />
+    </div>
+    <div id="login" v-title data-title="登录 - For Fun">
+      <!--<video preload="auto" class="me-video-player" autoplay="autoplay" loop="loop">
           <source src="../../static/vedio/sea.mp4" type="video/mp4">
-    </video>-->
+      </video>-->
 
-    <div class="me-login-box me-login-box-radius">
-      <h1>Fan 登录</h1>
+      <div class="me-login-box me-login-box-radius">
+        <h1>Fan 登录</h1>
 
-      <el-form ref="userForm" :model="userForm" :rules="rules">
-        <el-form-item prop="username">
-          <el-input placeholder="用户名" v-model="userForm.username"></el-input>
-        </el-form-item>
+        <el-form ref="userForm" :model="userForm" :rules="rules">
+          <el-form-item prop="username">
+            <el-input placeholder="用户名" v-model="userForm.username"></el-input>
+          </el-form-item>
 
-        <el-form-item prop="password">
-          <el-input placeholder="密码" v-model="userForm.password"></el-input>
-        </el-form-item>
+          <el-form-item prop="password">
+            <el-input placeholder="密码" v-model="userForm.password"></el-input>
+          </el-form-item>
 
-        <!-- 验证码 -->
-        <el-form-item prop="code">
-          <el-input
-            v-model="userForm.code"
-            auto-complete="off"
-            placeholder="验证码"
-            style="width: 63%"
-            @keyup.enter.native="login('userForm')"
-          >
-            <!-- <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" /> -->
-          </el-input>
-          <div class="login-code">
-            <img :src="codeUrl" @click="getCode" />
-          </div>
-        </el-form-item>
+          <!-- 验证码 -->
+          <el-form-item prop="code">
+            <el-input
+              v-model="userForm.code"
+              auto-complete="off"
+              placeholder="验证码"
+              style="width: 63%"
+              @keyup.enter.native="login('userForm')"
+            >
+              <!-- <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" /> -->
+            </el-input>
+            <div class="login-code">
+              <img :src="codeUrl" @click="getCode" />
+            </div>
+          </el-form-item>
 
-        <el-form-item size="small" class="me-login-button">
-          <el-button type="primary" @click.native.prevent="login('userForm')">登录</el-button>
-        </el-form-item>
-      </el-form>
+          <el-form-item size="small" class="me-login-button">
+            <el-button type="primary" @click.native.prevent="login('userForm')">登录</el-button>
+          </el-form-item>
+        </el-form>
 
-      <!-- <div class="me-login-design">
+        <!-- <div class="me-login-design">
         <p>Designed by
           <strong>
             <router-link to="/" class="me-login-design-color">ForFun</router-link>
           </strong>
         </p>
-      </div>-->
+        </div>-->
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getCodeImg } from "@/api/login"
+import { getCodeImg } from "@/api/login";
 export default {
   name: "Login",
   data() {
     return {
-
+      imgSrc: require("@/assets/img/login_background.jpg"),
       //验证码地址
       codeUrl: "",
       //用户表单
       userForm: {
-        username: "admin",
+        username: "happy",
         password: "admin123",
         code: "",
         uuid: ""
@@ -97,15 +102,17 @@ export default {
           that.$store
             .dispatch("login", that.userForm)
             .then(() => {
-               //获取用户信息
-               that.$store.dispatch('getUserInfo').then(data =>{
-               }).catch(() => {
-                that.$message({
-                message: "获取用户信息失败",
-                type: "error",
-                showClose: true
-              });
-               });
+              //获取用户信息
+              that.$store
+                .dispatch("getUserInfo")
+                .then(data => {})
+                .catch(() => {
+                  that.$message({
+                    message: "获取用户信息失败",
+                    type: "error",
+                    showClose: true
+                  });
+                });
 
               that.$router.go(-1);
             })
@@ -128,6 +135,13 @@ export default {
 </script>
 
 <style scoped rel="stylesheet/scss" lang="scss">
+.background {
+  width: 100%;
+  height: 100%; /**宽高100%是为了图片铺满屏幕 */
+  z-index: -1;
+  position: absolute;
+}
+
 #login {
   min-width: 100%;
   min-height: 100%;

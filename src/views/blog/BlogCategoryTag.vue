@@ -93,6 +93,7 @@
           if (error !== 'error') {
             that.$message({type: 'error', message: '标签加载失败', showClose: true})
           }
+
         })
       },
       getArticlesByCategory(id) {
@@ -100,9 +101,10 @@
         getArticlesByCategory(id).then(data => {
           that.articles = data.data
         }).catch(error => {
-          if (error !== 'error') {
-            that.$message({type: 'error', message: '文章加载失败', showClose: true})
-          }
+          // if (error !== 'error') {
+          //   that.$message({type: 'error', message: '文章加载失败', showClose: true})
+          // }
+          that.$message({type: 'error', message: error, showClose: true})
         })
       },
       getArticlesByTag(id) {
@@ -110,9 +112,10 @@
         getArticlesByTag(id).then(data => {
           that.articles = data.data
         }).catch(error => {
-          if (error !== 'error') {
-            that.$message({type: 'error', message: '文章加载失败', showClose: true})
-          }
+          // if (error !== 'error') {
+          //   that.$message({type: 'error', message: '文章加载失败', showClose: true})
+          // }
+           that.$message({type: 'error', message: error, showClose: true})
         })
       }
     }

@@ -1,16 +1,11 @@
 import request from '@/request'
 import Qs  from "qs";
 
-export function register(username, nickname, password) {
-  const data = {
-    username,
-    nickname,
-    password
-  }
+export function register(userForm) {
   return request({
-    url: '/register',
+    url: '/system/user/register',
     method: 'post',
-    data
+    data: userForm
   })
 }
 

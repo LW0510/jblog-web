@@ -17,10 +17,10 @@
     name: 'CardMe',
     data() {
       return {
-        qq: {title: 'QQ', message: '752396987'},
+        qq: {title: 'QQ', message: '来找喔要呀'},
         gitee: {
           title: 'gitee',
-          message: '<a target="_blank" href="https://gitee.com/seu-lfh/vblog.git">https://gitee.com/seu-lfh/vblog.git</a>'
+          message: '<a target="_blank" href="https://baidu.com</a>'
         }
       }
     },

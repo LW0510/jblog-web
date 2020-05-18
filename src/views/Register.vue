@@ -8,12 +8,21 @@
       <h1>Fan 注册</h1>
 
       <el-form ref="userForm" :model="userForm" :rules="rules">
-        <el-form-item prop="account">
-          <el-input placeholder="用户名" v-model="userForm.account"></el-input>
+        <el-form-item prop="userName">
+          <el-input placeholder="用户名" v-model="userForm.userName"></el-input>
         </el-form-item>
 
-        <el-form-item prop="nickname">
-          <el-input placeholder="昵称" v-model="userForm.nickname"></el-input>
+        <el-form-item prop="nickName">
+          <el-input placeholder="昵称" v-model="userForm.nickName"></el-input>
+        </el-form-item>
+
+                <el-form-item prop="phonenumber">
+          <el-input placeholder="手机号" v-model="userForm.phonenumber"></el-input>
+        </el-form-item>
+
+
+                <el-form-item prop="email">
+          <el-input placeholder="邮箱" v-model="userForm.email"></el-input>
         </el-form-item>
 
         <el-form-item prop="password">
@@ -45,18 +54,26 @@
     data() {
       return {
         userForm: {
-          account: '',
-          nickname: '',
-          password: ''
+          userName: 'shadow',
+          nickName: 'shadow',
+          phonenumber: '13007427338',
+          email: '13007427338@qq.com',
+          password: '123456'
         },
         rules: {
-          account: [
+          userName: [
             {required: true, message: '请输入用户名', trigger: 'blur'},
             {max: 10, message: '不能大于10个字符', trigger: 'blur'}
           ],
-          nickname: [
+          nickName: [
             {required: true, message: '请输入昵称', trigger: 'blur'},
             {max: 10, message: '不能大于10个字符', trigger: 'blur'}
+          ],
+                phonenumber: [
+            {required: true, message: '请输入手机号', trigger: 'blur'}
+          ],
+                email: [
+            {required: true, message: '请输入邮箱', trigger: 'blur'}
           ],
           password: [
             {required: true, message: '请输入密码', trigger: 'blur'},
@@ -72,7 +89,7 @@
           if (valid) {
 
             that.$store.dispatch('register', that.userForm).then(() => {
-              that.$message({message: '注册成功 快写文章吧', type: 'success', showClose: true});
+              that.$message({message: '注册成功 快登录写文章吧', type: 'success', showClose: true});
               that.$router.push({path: '/'})
             }).catch((error) => {
               if (error !== 'error') {
@@ -112,9 +129,9 @@
   .me-login-box {
     position: absolute;
     width: 300px;
-    height: 320px;
+    height: 400px;
     background-color: white;
-    margin-top: 150px;
+    margin-top: 75px;
     margin-left: -180px;
     left: 50%;
     padding: 30px;

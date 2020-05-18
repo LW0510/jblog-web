@@ -51,7 +51,7 @@ export default new Vuex.Store({
           if (data.code === 200 ) {
             commit('SET_ACCOUNT', data.user.userName)
             commit('SET_NAME', data.user.nickName)
-            commit('SET_AVATAR', data.user.avatar)
+            commit('SET_AVATAR',data.user.avatar)
             commit('SET_ID', data.user.userId)
           } else {
             commit('SET_ACCOUNT', '')
@@ -97,12 +97,13 @@ export default new Vuex.Store({
         reject(error)
       })
     },
+
     // 注册
     register({commit}, user) {
       return new Promise((resolve, reject) => {
-        register(user.username, user.nickname, user.password).then((data) => {
-          commit('SET_TOKEN', data.data['Oauth-Token'])
-          setToken(data.data['Oauth-Token'])
+        register(user).then((data) => {
+          // commit('SET_TOKEN', data.data['Oauth-Token'])
+          // setToken(data.data['Oauth-Token'])
           resolve()
         }).catch((error) => {
           reject(error)

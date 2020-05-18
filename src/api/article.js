@@ -5,10 +5,10 @@ export function getArticles(query, page) {
     url: '/article/list',
     method: 'get',
     params: {
-      pageNo: page.pageNo,
+      pageNum: page.pageNo,
       pageSize: page.pageSize,
-      six: page.name,
-      sort: page.sort,
+      orderField: page.name,
+      order: page.sort,
       year: query.year,
       month: query.month,
       tagId: query.tagId,
@@ -43,8 +43,12 @@ export function viewArticle(id) {
 
 export function getArticleById(id) {
   return request({
-    url: `/article/${id}`,
-    method: 'get'
+    // url: `/article/${id}`,
+    url: `/article/getArticle`,
+    method: 'get',
+    params: {
+      id
+    }
   })
 }
 
