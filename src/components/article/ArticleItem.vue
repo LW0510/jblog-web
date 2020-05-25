@@ -40,7 +40,7 @@
       commentNum: Number,
       viewNum: Number,
       summary: String,
-      nickname: Object,
+      nickname: String,
       tags: Array,
       createTime: String
     },
