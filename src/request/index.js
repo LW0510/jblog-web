@@ -4,7 +4,7 @@ import store from '@/store'
 import {getToken} from '@/request/auth'
 
 const service = axios.create({
-  baseURL: '/',
+  baseURL: process.env.BASE_API,
   timeout: 10000
 })
 
@@ -54,14 +54,14 @@ service.interceptors.response.use(
             })
           })
         }else{
-        return Promise.reject('权限不够哦'); 
+        return Promise.reject('权限不够哦');
         }
 
       }else if(code !== 200){
         // Notification.error({
         //   title: response.data.msg
         // })
-        return Promise.reject(response.data.msg); 
+        return Promise.reject(response.data.msg);
       }
     } else {
       return response.data;

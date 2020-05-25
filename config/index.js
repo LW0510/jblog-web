@@ -12,11 +12,11 @@ module.exports = {
     // 代理配置表，在这里可以配置特定的请求代理到对应的API接口
     // 例如将'localhost:8080/'代理到 http://localhost:8080
     proxyTable: {
-    	'/': {
-        target: `http://localhost:8080/`,
+      [process.env.BASE_API]: {
+        target: process.env.BASE_API,
         changeOrigin: true,
         pathRewrite: {
-          '^/': ''
+          ['^' + process.env.BASE_API]: ''
         }
       }
     },
@@ -46,6 +46,9 @@ module.exports = {
   },
 
   build: {
+    prodEnv: require('./prod.env'),
+    testEnv: require('./test.env'),
+    devEnv: require('./dev.env'),
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
 
