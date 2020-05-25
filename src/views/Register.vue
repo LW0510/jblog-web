@@ -54,11 +54,11 @@
     data() {
       return {
         userForm: {
-          userName: 'shadow',
-          nickName: 'shadow',
-          phonenumber: '13007427338',
-          email: '13007427338@qq.com',
-          password: '123456'
+          userName: '',
+          nickName: '',
+          phonenumber: '',
+          email: '',
+          password: ''
         },
         rules: {
           userName: [

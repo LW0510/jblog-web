@@ -2,7 +2,7 @@
   <div v-title data-title="ForFun Find Yourself">
     <el-container>
       <el-main class="me-articles">
-          <el-input placeholder="请输入内容" v-model="input3"  class="top-search">
+          <el-input placeholder="请输入搜索内容" v-model="input3"  class="top-search">
               <el-button slot="append" icon="el-icon-search"></el-button>
           </el-input>
         <article-scroll-page></article-scroll-page>
