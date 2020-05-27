@@ -10,13 +10,16 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     // 代理配置表，在这里可以配置特定的请求代理到对应的API接口
-    // 例如将'localhost:8080/'代理到 http://localhost:8080
+
+   // 部署到线上时代理失效（注释下面）
     proxyTable: {
-      [process.env.BASE_API]: {
-        target: process.env.BASE_API,
+      // [process.env.BASE_API]: {
+        '/':{
+        target: "http://localhost:8080",
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.BASE_API]: ''
+          // ['^' + process.env.BASE_API]: ''
+          '^/': ''
         }
       }
     },
@@ -60,7 +63,7 @@ module.exports = {
 		 *	径以 ' / ' 开头，那么在本地是无法找到对应文件。所以如果需要在本地打开打包后的文件，
 		 *	就得修改文件路径。
      */
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

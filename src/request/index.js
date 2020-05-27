@@ -4,7 +4,10 @@ import store from '@/store'
 import {getToken} from '@/request/auth'
 
 const service = axios.create({
-  baseURL: process.env.BASE_API,
+  // baseURL: process.env.BASE_API,
+
+  //部署到线上时注释
+  baseURL: "/",
   timeout: 10000
 })
 
