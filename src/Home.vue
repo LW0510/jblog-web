@@ -1,13 +1,9 @@
 <template>
   <div id="home">
     <el-container>
-
       <base-header :activeIndex="activeIndex"></base-header>
-
       <router-view class="me-container"/>
-
       <base-footer v-show="footerShow"></base-footer>
-
     </el-container>
 
   </div>
@@ -50,6 +46,6 @@
 <style>
 
   .me-container {
-    margin: 100px auto 140px;
+    margin: 90px auto 140px;
   }
 </style>

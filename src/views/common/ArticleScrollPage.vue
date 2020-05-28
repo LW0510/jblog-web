@@ -1,6 +1,15 @@
 <template>
   <scroll-page :loading="loading" :offset="offset" :no-data="noData" v-on:load="load">
+    <!-- 顶部搜索 -->
+    <el-input placeholder="请输入搜索内容" v-model="topValue">
+      <el-button slot="append" icon="el-icon-search" @click="topSearch()"></el-button>
+    </el-input>
+
     <article-item v-for="a in articles" :key="a.id" v-bind="a"></article-item>
+
+    <div v-if="noRecord">
+      无记录
+    </div>
   </scroll-page>
 </template>
 
@@ -53,13 +62,15 @@
       return {
         loading: false,
         noData: false,
+        noRecord: false,
         innerPage: {
           pageSize: 10,
           pageNo: 1,
           name: 'create_time',
           sort: 'desc'
         },
-        articles: []
+        articles: [],
+        topValue:''
       }
     },
     components: {
@@ -95,6 +106,36 @@
           that.loading = false
         })
 
+      },
+      //顶部搜索
+      topSearch(){
+        let that = this
+        that.noData = false
+        that.articles = []
+        that.noRecord = false
+        that.innerPage.pageNo = 1
+          
+    
+        that.loading = true
+        let query = {
+          title: that.topValue
+        };
+        getArticles(query, that.innerPage).then(data => {
+          let newArticles = data.rows
+          if (newArticles && newArticles.length > 0) {
+            // that.innerPage.pageNo += 1
+            that.articles = newArticles;
+          } else {
+            that.noData = true
+            that.noRecord = true;
+          }
+        }).catch(error => {
+          if (error !== 'error') {
+            that.$message({type: 'error', message: '文章加载失败!', showClose: true})
+          }
+        }).finally(() => {
+          that.loading = false
+        })
       }
     },
     created() {
@@ -104,12 +145,13 @@
 </script>
 
 <style scoped>
+
   .el-card {
     border-radius: 0;
   }
 
   .el-card:not(:first-child) {
     margin-top: 10px;
-
   }
+
 </style>
