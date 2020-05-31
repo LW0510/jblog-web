@@ -10,7 +10,7 @@
 
   export default {
     name: 'App',
-    components: {GoTop}
+    components: {GoTop},
   }
 </script>
 

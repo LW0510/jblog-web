@@ -36,6 +36,19 @@
             </div>
           </el-form-item>
 
+          <el-form-item>
+            <p class="login-footer">
+              <el-button type="text" @click.native.prevent="toRegister">注册</el-button>
+              <span>
+                <el-button type="text" @click.native.prevent="forgetPwd">找回密码</el-button>
+              </span>
+            </p>
+
+            <!-- <div class="forget-pwd">
+              
+            </div>-->
+          </el-form-item>
+
           <el-form-item size="small" class="me-login-button">
             <el-button type="primary" @click.native.prevent="login('userForm')">登录</el-button>
           </el-form-item>
@@ -55,6 +68,7 @@
 
 <script>
 import { getCodeImg } from "@/api/login";
+
 export default {
   name: "Login",
   data() {
@@ -129,6 +143,12 @@ export default {
           return false;
         }
       });
+    },
+    toRegister() {
+      this.$router.push({ path: "/register" });
+    },
+    forgetPwd() {
+      this.$router.push({ path: "/forgetpwd" });
     }
   }
 };
@@ -162,7 +182,7 @@ export default {
 .me-login-box {
   position: absolute;
   width: 300px;
-  height: 260px;
+  height: 327px;
   background-color: white;
   margin-top: 150px;
   margin-left: -180px;
@@ -208,5 +228,9 @@ export default {
     cursor: pointer;
     vertical-align: middle;
   }
+}
+
+.login-footer {
+  margin-top: 0px;
 }
 </style>

@@ -57,13 +57,20 @@ service.interceptors.response.use(
             })
           })
         }else{
+          Message({
+            type: 'error',
+            showClose: true,
+            message: '权限不够哦'
+          })
         return Promise.reject('权限不够哦');
         }
 
       }else if(code !== 200){
-        // Notification.error({
-        //   title: response.data.msg
-        // })
+        Message({
+          type: 'error',
+          showClose: true,
+          message: response.data.msg
+        })
         return Promise.reject(response.data.msg);
       }
     } else {

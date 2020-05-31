@@ -28,6 +28,8 @@ import { getHotTags } from "@/api/tag";
 import { listArchives } from "@/api/article";
 import { getToken } from "@/request/auth";
 
+
+
 export default {
   name: "Index",
   data() {
@@ -122,6 +124,11 @@ export default {
           }
         });
     }
+
+
+
+
+
   },
   created() {
     //刷新页面，获取用户信息（如果当前用户之前已经登录过）

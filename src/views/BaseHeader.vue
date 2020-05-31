@@ -50,9 +50,22 @@
               <template slot="title">
                 <img class="me-header-picture" :src="user.avatar" />
               </template>
-              <el-menu-item index @click="logout">
-                <i class="el-icon-back"></i>退出
-              </el-menu-item>
+              <el-row>
+                <el-menu-item index='/myhome' >
+                  <i class="el-icon-user"></i>我的主页
+                </el-menu-item>
+              </el-row>
+
+              <el-row>
+                <el-menu-item index='/profile'>
+                  <i class="el-icon-user"></i>编辑资料
+                </el-menu-item>
+              </el-row>
+              <el-row>
+                <el-menu-item index @click="logout">
+                  <i class="el-icon-back"></i>退出
+                </el-menu-item>
+              </el-row>
             </el-submenu>
           </template>
         </el-menu>

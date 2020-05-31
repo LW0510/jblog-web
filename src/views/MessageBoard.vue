@@ -1,13 +1,16 @@
 <template>
   <div class="me-message" v-title :data-title="title">
-    <el-container class="">
+    <el-container class="me-area">
       <el-main class="me-main">
-        <el-alert
+        <!-- <el-alert
           title="暂时还不能留言哦。。。。。。。。。。"
           type="warning"
           center
           show-icon>
-        </el-alert>
+        </el-alert> -->
+        <div>
+          
+        </div>
       </el-main>
     </el-container>
   </div>

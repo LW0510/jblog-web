@@ -7,7 +7,7 @@
 
     <article-item v-for="a in articles" :key="a.id" v-bind="a"></article-item>
 
-    <div v-if="noRecord">
+    <div class="no-record" v-if="noRecord">
       无记录
     </div>
   </scroll-page>
@@ -152,6 +152,20 @@
 
   .el-card:not(:first-child) {
     margin-top: 10px;
+  }
+
+  .no-record {
+    /*flex 布局*/
+    display: flex;
+    /*实现垂直居中*/
+    align-items: center;
+    /*实现水平居中*/
+    justify-content: center;
+
+    height:300px;
+    margin:0 auto;
+  
+    
   }
 
 </style>

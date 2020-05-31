@@ -25,6 +25,10 @@ Vue.directive('title', function (el, binding) {
 // 格式化时间
 Vue.filter('format', formatTime)
 
+
+
+
+
 new Vue({
   el: '#app',
   router,

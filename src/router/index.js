@@ -59,6 +59,13 @@ const router = new Router({
         {
           path: '/:type/:id',
           component: r => require.ensure([], () => r(require('@/views/blog/BlogCategoryTag')), 'blogcategorytag')
+        },
+        {
+          path: '/myhome',
+          component: r => require.ensure([], () => r(require('@/views/user/MyHome')), 'myhome')
+        },{
+          path: '/profile',
+          component: r => require.ensure([], () => r(require('@/views/user/profile')), 'profile')
         }
       ]
     },
@@ -69,12 +76,17 @@ const router = new Router({
     {
       path: '/register',
       component: r => require.ensure([], () => r(require('@/views/Register')), 'register')
+    },{
+      path: '/forgetpwd',
+      component: r => require.ensure([], () => r(require('@/views/user/ForgetPwd')), 'forgetpwd')
     }
   ],
   scrollBehavior(to, from, savedPosition) {
     return {x: 0, y: 0}
   }
 })
+
+
 
 router.beforeEach((to, from, next) => {
 
