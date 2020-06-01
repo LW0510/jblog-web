@@ -2,31 +2,33 @@
   <div class="me-message" v-title :data-title="title">
     <el-container class="me-area">
       <el-main class="me-main">
-        <!-- <el-alert
-          title="暂时还不能留言哦。。。。。。。。。。"
-          type="warning"
-          center
-          show-icon>
-        </el-alert> -->
-        <div>
-          
-        </div>
+
+  <comment :comments="commentData"></comment>
       </el-main>
     </el-container>
   </div>
 </template>
 
 <script>
+import * as CommentData from './mockdata'
+import comment from '@/components/comment'
   export default {
+        components: {
+      comment
+    },
     name: 'MessageBoard',
     data() {
       return {
+        commentData: []
       }
     },
     computed: {
       title (){
         return '留言板 - For Fun'
       }
+    },
+    created(){
+      this.commentData = CommentData.comment.data;
     }
   }
 </script>
