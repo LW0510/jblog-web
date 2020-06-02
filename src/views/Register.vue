@@ -97,6 +97,17 @@
           password2: [
             { required: true, validator: validatePass2, trigger: 'blur' }
           ]
+        },
+        pwdRules:{
+          oldPassword:[
+                        { required: true, validator: validatePass2, trigger: 'blur' }
+          ],
+          newPassword:[
+                        { required: true, validator: validatePass2, trigger: 'blur' }
+          ],
+          rePassword:[
+                        { required: true, validator: validatePass2, trigger: 'blur' }
+          ]
         }
       }
     },

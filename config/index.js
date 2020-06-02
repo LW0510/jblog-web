@@ -5,17 +5,6 @@
 const path = require('path')
 
 module.exports = {
-  //引入jQuery
-//   configureWebpack: {//引入jquery
-//     plugins: [
-//         new webpack.ProvidePlugin({
-//             $: "jquery",
-//             jQuery: "jquery",
-//             "windows.jQuery": "jquery"
-//         })
-//     ]
-// },
-
   dev: {
     // Paths
     assetsSubDirectory: 'static',

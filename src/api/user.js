@@ -26,12 +26,34 @@ export function retrievePassword(form) {
     })
   }
 
+  // 用户密码重置
+export function updateUserPwd(oldPassword, newPassword) {
+  const data = {
+    oldPassword,
+    newPassword
+  }
+  return request({
+    url: '/system/user/profile/updatePwd',
+    method: 'put',
+    params: data
+  })
+}
 
-  //获取当前dang
+//头像上传
+export function avatarUpload(data){
+  return request({
+    url:`/avatar/upload`,
+    method: 'post',
+    contentType: 'application/x-www-form-urlencoded',
+    data:data
+  });
+}
+
+
+  //获取当前登陆用户
   export function getCurrUser(){
     return request({
       url: `/system/user/currUser`,
       method: 'get'
     })
-
   }
