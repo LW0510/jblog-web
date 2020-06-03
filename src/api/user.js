@@ -20,7 +20,7 @@ export function retrievePassword(form) {
       headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
       },
-      url: `/system/user/retrievePassword`,
+      url: `/user/retrievePassword`,
       method: 'post',
       data: Qs.stringify(form)
     })
@@ -53,7 +53,28 @@ export function avatarUpload(data){
   //获取当前登陆用户
   export function getCurrUser(){
     return request({
-      url: `/system/user/currUser`,
+      url: `/user/currUser`,
       method: 'get'
     })
   }
+
+  // 修改用户
+export function updateUser(data) {
+  return request({
+    url: '/user/updateUser',
+    method: 'post',
+    data: data
+  })
+}
+
+
+// 获取用户详细信息
+export function getInfo(userId) {
+  return request({
+    url: '/user/info',
+    method: 'get',
+    params: {
+      userId
+    }
+  })
+}

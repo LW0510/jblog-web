@@ -21,42 +21,42 @@
           <el-form ref="userForm" :model="userForm" :rules="userRules" label-width="80px">
             <el-row>
               <el-col :span="10">
-                            <el-form-item label="用户名" prop="userName">
-              <el-input v-model="userForm.userName"></el-input>
-            </el-form-item>
+                <el-form-item label="用户名" prop="userName">
+                  <el-input v-model="userForm.userName"></el-input>
+                </el-form-item>
 
-            <el-form-item label="性别" prop="sex">
-              <el-select v-model="userForm.sex" placeholder="请选择">
-                <el-option
-                  v-for="item in sexOptions"
-                  :key="item.dictValue"
-                  :label="item.dictLabel"
-                  :value="item.dictValue"
-                ></el-option>
-              </el-select>
-            </el-form-item>
+                <el-form-item label="性别" prop="sex">
+                  <el-select v-model="userForm.sex" placeholder="请选择">
+                    <el-option
+                      v-for="item in sexOptions"
+                      :key="item.dictValue"
+                      :label="item.dictLabel"
+                      :value="item.dictValue"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
               </el-col>
               <el-col :span="14">
-                            <el-form-item label="头像" prop="avatar">
-              <!-- <el-input v-model="userForm.avatar"></el-input> -->
-            <el-upload
-                class="avatar-uploader"
-                :action="uploadUrl"
-                 :http-request="upLoad"
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :on-remove="handleRemove"
-                :before-upload="beforeAvatarUpload">
-                <img v-if="user.avatar" :src="user.avatar" class="avatar">
-                <!-- <span v-if="imageUrl" class="el-upload-action" @click.stop="handleRemove()">
+                <el-form-item label="头像" prop="avatar">
+                  <!-- <el-input v-model="userForm.avatar"></el-input> -->
+                  <el-upload
+                    class="avatar-uploader"
+                    :action="uploadUrl"
+                    :http-request="upLoad"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :on-remove="handleRemove"
+                    :before-upload="beforeAvatarUpload"
+                  >
+                    <img v-if="user.avatar" :src="user.avatar" class="avatar" />
+                    <!-- <span v-if="imageUrl" class="el-upload-action" @click.stop="handleRemove()">
                     <i class="el-icon-delete"></i>
-                </span> -->
-                <i  v-else class="el-icon-upload2 avatar-uploader-icon" stop></i>
-            </el-upload>
-            </el-form-item>
+                    </span>-->
+                    <i v-else class="el-icon-upload2 avatar-uploader-icon" stop></i>
+                  </el-upload>
+                </el-form-item>
               </el-col>
             </el-row>
-
 
             <el-form-item label="昵称" prop="nickName">
               <el-input v-model="userForm.nickName"></el-input>
@@ -69,28 +69,16 @@
             </el-form-item>
 
             <el-form-item>
-              <el-row type="flex" justify="center">
-                <el-col :push="6">
-                  <el-button
-                    :loading="updateInfoLoading"
-                    size="medium"
-                    type="primary"
-                    style="width:40%;"
-                    @click.native.prevent="handleUpdateInfo"
-                  >
-                    <span v-if="!updateInfoLoading">提交</span>
-                    <span v-else>更 新 中...</span>
-                  </el-button>
-                </el-col>
-                <el-col>
-                  <el-button
-                    size="medium"
-                    type="primary"
-                    style="width:40%;"
-                    @click.native.prevent="resetInfo"
-                  >重置</el-button>
-                </el-col>
-              </el-row>
+              <el-button
+                :loading="updateInfoLoading"
+                size="medium"
+                type="primary"
+                style="width:20%;"
+                @click.native.prevent="handleUpdateInfo('userForm')"
+              >
+                <span v-if="!updateInfoLoading">提交</span>
+                <span v-else>更 新 中...</span>
+              </el-button>
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -125,7 +113,12 @@
   </div>
 </template>
 <script>
-import { getCurrUser, updateUserPwd,avatarUpload } from "@/api/user";
+import {
+  updateUserPwd,
+  avatarUpload,
+  updateUser,
+  getInfo
+} from "@/api/user";
 import { getDicts } from "@/api/dict/data";
 export default {
   data() {
@@ -146,7 +139,7 @@ export default {
       updatePwdLoading: false,
 
       //头像上传url
-      uploadUrl: 'http://localhost:8080/avatar/upload',
+      uploadUrl: "http://localhost:8080/avatar/upload",
 
       //用户表单
       userForm: {
@@ -154,7 +147,7 @@ export default {
         nickName: "",
         email: "",
         phonenumber: "",
-        sex: undefined,
+        sex: "",
         avatar: ""
       },
 
@@ -171,10 +164,16 @@ export default {
       sexOptions: [],
 
       userRules: {
-        username: [
+        userName: [
           { required: true, message: "请输入用户名", trigger: "blur" },
           { max: 10, message: "不能大于10个字符", trigger: "blur" }
-        ]
+        ],
+        nickName: [
+          { required: true, message: "请输入昵称", trigger: "blur" },
+          { max: 10, message: "不能大于10个字符", trigger: "blur" }
+        ],
+        email: [{ required: true, message: "请输入邮件", trigger: "blur" }],
+        sex: [{ required: true, message: "请输入性别", trigger: "blur" }]
       },
       pwdRules: {
         oldPassword: [
@@ -208,10 +207,29 @@ export default {
   methods: {
     // tab页点击
     handleClick(tab, event) {
-      console.log(tab, event);
+      if(this.activeName === 'updateInfo'){
+           this.getUserInfo();
+      }
     },
     //更新个人信息
-    handleUpdateInfo() {},
+    handleUpdateInfo(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          let userForm = this.userForm;
+          userForm.userId = this.user.userId;
+          userForm.avatar = undefined;
+          updateUser(userForm).then(response => {
+            this.getUserInfo();
+            this.$message({
+              message: "修改成功",
+              type: "success"
+            });
+          });
+        } else {
+          return false;
+        }
+      });
+    },
     //更新密码
     handleUpdatePwd(formName) {
       this.$refs[formName].validate(valid => {
@@ -229,10 +247,9 @@ export default {
         }
       });
     },
-    getUserInfo() {
-      getCurrUser().then(response => {
-        this.userInfo = response.data.user;
-
+    getUserInfo(){
+      getInfo(this.user.userId).then(response => {
+        this.userInfo = response.data;
         //初始化 userForm数据
         Object.keys(this.userForm).forEach(key => {
           this.userForm[key] = this.userInfo[key];
@@ -247,44 +264,47 @@ export default {
     },
 
     //头像上传相关
-     // 移除图片
+    // 移除图片
     handleRemove() {
-      this.imageUrl = ''
+      this.imageUrl = "";
     },
     // 上传成功回调
     handleAvatarSuccess(res, file) {
       debugger;
-      this.imageUrl = res.data.url
+      this.imageUrl = res.data.url;
     },
 
     //自定义头像上传
-    upLoad(file){
+    upLoad(file) {
       let userId = this.user.userId;
       const formData = new FormData();
-       formData.append('file',file.file);
-      formData.append('userId',userId);
+      formData.append("file", file.file);
+      formData.append("userId", userId);
       avatarUpload(formData).then(response => {
-        this.$store.commit('SET_AVATAR',response.url);
-          this.$message({
-          message: '修改成功',
-          type: 'success'
+        this.$store.commit("SET_AVATAR", response.url);
+        this.$message({
+          message: "修改成功",
+          type: "success"
         });
       });
     },
 
     // 上传前格式和图片大小限制
     beforeAvatarUpload(file) {
-      const type = file.type === 'image/jpeg' || 'image/jpg' || 'image/webp' || 'image/png'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const type =
+        file.type === "image/jpeg" ||
+        "image/jpg" ||
+        "image/webp" ||
+        "image/png";
+      const isLt2M = file.size / 1024 / 1024 < 2;
       if (!type) {
-        this.$message.error('图片格式不正确!(只能包含jpg，png，webp，JPEG)')
+        this.$message.error("图片格式不正确!(只能包含jpg，png，webp，JPEG)");
       }
       if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 2MB!')
+        this.$message.error("上传图片大小不能超过 2MB!");
       }
-      return type && isLt2M
-
-  }
+      return type && isLt2M;
+    }
   },
   created() {
     this.getSexDictInfo();
@@ -315,8 +335,8 @@ export default {
 }
 
 /* 头像上传相关 */
-.avatar-uploader{
-  width: 100PX;
+.avatar-uploader {
+  width: 100px;
   height: 100px;
   border-radius: 50%;
   cursor: pointer;
@@ -325,7 +345,7 @@ export default {
   /* background: url('../assets/img/defaultHead.jpg') no-repeat; */
   background-size: 100% 100%;
 }
-.avatar-uploader-icon{
+.avatar-uploader-icon {
   font-size: 0;
   color: #fff;
   width: 100px;
@@ -334,9 +354,9 @@ export default {
   text-align: center;
   cursor: pointer;
 }
-.avatar-uploader-icon{
+.avatar-uploader-icon {
   font-size: 28px;
-  background-color: rgba(0, 0, 0, .3);
+  background-color: rgba(0, 0, 0, 0.3);
 }
 .avatar {
   position: relative;
@@ -355,11 +375,10 @@ export default {
   color: #fff;
   text-align: center;
   line-height: 120px;
-
 }
 .el-upload-action:hover {
   font-size: 20px;
   background-color: #000;
-  background-color: rgba(0, 0, 0, .3)
+  background-color: rgba(0, 0, 0, 0.3);
 }
 </style>
