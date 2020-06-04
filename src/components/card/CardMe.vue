@@ -2,7 +2,7 @@
   <el-card>
     <div class="my-clock" v-if="!getToken()">
       <clock :time="currentTime"></clock>
-      <div>当前时间为：{{currentTime}}</div>
+      <div>当前时间:{{currentTime}}</div>
     </div>
     <div class="me-author" v-else>
       <h1 class="me-author-name">{{authorInfo.nickName}}</h1>
