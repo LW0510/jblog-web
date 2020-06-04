@@ -3,7 +3,7 @@ import Qs  from "qs";
 
 export function register(userForm) {
   return request({
-    url: '/system/user/register',
+    url: '/user/register',
     method: 'post',
     data: userForm
   })
