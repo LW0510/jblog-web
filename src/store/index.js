@@ -12,6 +12,9 @@ export default new Vuex.Store({
     name: '',
     avatar: '',
     token: getToken(),
+    addr: '',
+    label: '',
+    phone:''
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -28,6 +31,15 @@ export default new Vuex.Store({
     },
     SET_ID: (state, id) => {
       state.id = id
+    },
+    SET_ADDR: (state, addr) => {
+      state.addr = addr
+    },
+    SET_LABEL: (state, label) => {
+      state.label = label
+    },
+    SET_PHONE: (state, phone) => {
+      state.phone = phone
     }
   },
   actions: {
@@ -53,11 +65,17 @@ export default new Vuex.Store({
             commit('SET_NAME', data.user.nickName)
             commit('SET_AVATAR',data.user.avatar)
             commit('SET_ID', data.user.userId)
+            commit('SET_ADDR', data.user.addr)
+            commit('SET_LABEL', data.user.label)
+            commit('SET_PHONE', data.user.phonenumber)
           } else {
             commit('SET_ACCOUNT', '')
             commit('SET_NAME', '')
             commit('SET_AVATAR', '')
             commit('SET_ID', '')
+            commit('SET_ADDR', '')
+            commit('SET_LABEL', '')
+            commit('SET_PHONE', '')
             //用户信息不存在，删除token
             removeToken()
           }
@@ -76,6 +94,9 @@ export default new Vuex.Store({
           commit('SET_NAME', '')
           commit('SET_AVATAR', '')
           commit('SET_ID', '')
+          commit('SET_ADDR', '')
+          commit('SET_LABEL', '')
+          commit('SET_PHONE', '')
           removeToken()
           resolve()
         }).catch(error => {
@@ -91,6 +112,9 @@ export default new Vuex.Store({
         commit('SET_NAME', '')
         commit('SET_AVATAR', '')
         commit('SET_ID', '')
+        commit('SET_ADDR', '')
+        commit('SET_LABEL', '')
+        commit('SET_PHONE', '')
         removeToken()
         resolve()
       }).catch(error => {

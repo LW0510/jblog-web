@@ -15,7 +15,7 @@ module.exports = {
     proxyTable: {
       // [process.env.BASE_API]: {
         '/':{
-        target: "http://localhost:8080",
+        target: "http://localhost:8088",
         changeOrigin: true,
         pathRewrite: {
           // ['^' + process.env.BASE_API]: ''

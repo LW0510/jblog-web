@@ -104,6 +104,7 @@ export default {
         .dispatch("logout")
         .then(() => {
           this.$router.push({ path: "/" });
+                     location.reload() // 为了重新实例化vue-router对象 避免bug
         })
         .catch(error => {
           if (error !== "error") {

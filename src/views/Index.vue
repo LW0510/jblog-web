@@ -23,7 +23,7 @@ import CardMe from "@/components/card/CardMe";
 import CardTag from "@/components/card/CardTag";
 import CardArchive from "@/components/card/CardArchive";
 
-import { getArticles, getHotArtices, getNewArtices } from "@/api/article";
+import { articleList, getHotArtices, getNewArtices } from "@/api/article";
 import { getHotTags } from "@/api/tag";
 import { listArchives } from "@/api/article";
 import { getToken } from "@/request/auth";

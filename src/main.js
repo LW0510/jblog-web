@@ -9,6 +9,8 @@ import ElementUI from 'element-ui'
 import '@/assets/theme/index.css'
 import '@/assets/icon/iconfont.css'
 
+import '@/assets/myicon/iconfont.css';
+
 import {formatTime} from "./utils/time";
 
 Vue.config.productionTip = false

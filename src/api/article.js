@@ -1,10 +1,12 @@
 import request from '@/request'
+import Qs  from "qs";
 
-export function getArticles(query, page) {
+export function articleList(query, page) {
   return request({
     url: '/article/list',
     method: 'get',
     params: {
+      userId: query.userId,
       pageNum: page.pageNo,
       pageSize: page.pageSize,
       orderField: page.name,
@@ -13,7 +15,8 @@ export function getArticles(query, page) {
       month: query.month,
       tagId: query.tagId,
       title: query.title,
-      categoryId: query.categoryId
+      categoryId: query.categoryId,
+      status: query.status
     }
   })
 }
@@ -68,6 +71,17 @@ export function listArchives() {
   })
 }
 
+export function deleteArticle(id) {
+  let data = {id:id}
+  return request({
+    url: '/article/deleteArticle',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
+
+
 
 /*
  * 以下俩接口暂时未用到
@@ -86,4 +100,8 @@ export function getArticlesByTag(id) {
     method: 'get'
   })
 }
+
+
+
+
 

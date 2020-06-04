@@ -23,14 +23,14 @@
                 <span>评论   {{article.commentNum}}</span>
               </div>
             </div>
-            <el-button
+            <!-- <el-button
               v-if="this.article.author.id == this.$store.state.id"
               @click="editArticle()"
               style="position: absolute;left: 60%;"
               size="mini"
               type="success"
               round
-              icon="el-icon-edit">编辑</el-button>
+              icon="el-icon-edit">编辑</el-button> -->
           </div>
           <div class="me-view-content">
             <markdown-editor :editor=article.editor></markdown-editor>

@@ -16,7 +16,7 @@
 <script>
   import ArticleItem from '@/components/article/ArticleItem'
   import ScrollPage from '@/components/scrollpage'
-  import {getArticles} from '@/api/article'
+  import {articleList} from '@/api/article'
 
   export default {
     name: "ArticleScrollPage",
@@ -44,7 +44,7 @@
           this.noData = false
           this.articles = []
           this.innerPage.pageNo = 1
-          this.getArticles()
+          this.articleList()
         },
         deep: true
       },
@@ -53,7 +53,7 @@
           this.noData = false
           this.articles = []
           this.innerPage = this.page
-          this.getArticles()
+          this.articleList()
         },
         deep: true
       }
@@ -67,7 +67,7 @@
           pageSize: 10,
           pageNo: 1,
           name: 'create_time',
-          sort: 'desc'
+          sort: 'desc',
         },
         articles: [],
         topValue:''
@@ -79,16 +79,18 @@
     },
     methods: {
       load() {
-        this.getArticles()
+        this.articleList()
       },
       view(id) {
         this.$router.push({path: `/view/${id}`})
       },
-      getArticles() {
+      articleList() {
         let that = this
         that.loading = true
 
-        getArticles(that.query, that.innerPage).then(data => {
+          //status 为1 表示所有审核通过的文章
+        that.query.status = '1',
+        articleList(that.query, that.innerPage).then(data => {
 
           let newArticles = data.rows
           if (newArticles && newArticles.length > 0) {
@@ -114,13 +116,13 @@
         that.articles = []
         that.noRecord = false
         that.innerPage.pageNo = 1
-          
-    
+
+
         that.loading = true
         let query = {
           title: that.topValue
         };
-        getArticles(query, that.innerPage).then(data => {
+        articleList(query, that.innerPage).then(data => {
           let newArticles = data.rows
           if (newArticles && newArticles.length > 0) {
             // that.innerPage.pageNo += 1
@@ -139,7 +141,7 @@
       }
     },
     created() {
-      this.getArticles()
+      this.articleList()
     }
   }
 </script>
@@ -164,8 +166,8 @@
 
     height:300px;
     margin:0 auto;
-  
-    
+
+
   }
 
 </style>
