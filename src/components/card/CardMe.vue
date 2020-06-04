@@ -110,6 +110,11 @@ export default {
 </script>
 
 <style scoped>
+
+.my-clock{
+  text-align: center;
+}
+
 .me-author-name {
   text-align: center;
   font-size: 30px;
