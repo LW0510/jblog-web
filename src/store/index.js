@@ -14,7 +14,8 @@ export default new Vuex.Store({
     token: getToken(),
     addr: '',
     label: '',
-    phone:''
+    phone:'',
+    email:''
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -40,6 +41,9 @@ export default new Vuex.Store({
     },
     SET_PHONE: (state, phone) => {
       state.phone = phone
+    },
+    SET_EMAIL: (state, email) => {
+      state.email = email
     }
   },
   actions: {
@@ -68,6 +72,7 @@ export default new Vuex.Store({
             commit('SET_ADDR', data.user.addr)
             commit('SET_LABEL', data.user.label)
             commit('SET_PHONE', data.user.phonenumber)
+            commit('SET_EMAIL', data.user.email)
           } else {
             commit('SET_ACCOUNT', '')
             commit('SET_NAME', '')
@@ -76,6 +81,7 @@ export default new Vuex.Store({
             commit('SET_ADDR', '')
             commit('SET_LABEL', '')
             commit('SET_PHONE', '')
+            commit('SET_EMAIL', '')
             //用户信息不存在，删除token
             removeToken()
           }

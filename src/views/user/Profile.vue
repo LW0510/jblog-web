@@ -57,12 +57,17 @@
                 </el-form-item>
               </el-col>
             </el-row>
-
+            <el-form-item label="个性签名">
+              <el-input v-model="userForm.label"></el-input>
+            </el-form-item>
             <el-form-item label="昵称" prop="nickName">
               <el-input v-model="userForm.nickName"></el-input>
             </el-form-item>
             <el-form-item label="邮箱" prop="email">
               <el-input v-model="userForm.email"></el-input>
+            </el-form-item>
+            <el-form-item label="地址">
+              <el-input v-model="userForm.addr"></el-input>
             </el-form-item>
             <el-form-item label="电话号码" prop="phonenumber">
               <el-input v-model="userForm.phonenumber"></el-input>
@@ -113,12 +118,7 @@
   </div>
 </template>
 <script>
-import {
-  updateUserPwd,
-  avatarUpload,
-  updateUser,
-  getInfo
-} from "@/api/user";
+import { updateUserPwd, avatarUpload, updateUser, getInfo } from "@/api/user";
 import { getDicts } from "@/api/dict/data";
 export default {
   data() {
@@ -148,7 +148,9 @@ export default {
         email: "",
         phonenumber: "",
         sex: "",
-        avatar: ""
+        avatar: "",
+        label: "",
+        addr: ""
       },
 
       //密码表单
@@ -207,15 +209,15 @@ export default {
   methods: {
     // tab页点击
     handleClick(tab, event) {
-      if(this.activeName === 'updateInfo'){
-           this.getUserInfo();
+      if (this.activeName === "updateInfo") {
+        this.getUserInfo();
       }
     },
     //更新个人信息
     handleUpdateInfo(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          let userForm = this.userForm;
+          let userForm = JSON.parse(JSON.stringify(this.userForm));
           userForm.userId = this.user.userId;
           userForm.avatar = undefined;
           updateUser(userForm).then(response => {
@@ -224,11 +226,23 @@ export default {
               message: "修改成功",
               type: "success"
             });
+            //更新 store中的用户信息
+            this.refreshStore();
           });
         } else {
           return false;
         }
       });
+    },
+    //更新保存在store中的用户信息
+    refreshStore() {
+      this.$store.commit("SET_ACCOUNT", this.userForm.userName);
+      this.$store.commit("SET_NAME", this.userForm.name);
+      // this.$store.commit("SET_AVATAR", this.userForm.avatar);
+      this.$store.commit("SET_EMAIL", this.userForm.email);
+      this.$store.commit("SET_PHONE", this.userForm.phonenumber);
+      this.$store.commit("SET_LABEL",this.userForm.label);
+      this.$store.commit("SET_ADDR", this.userForm.addr);
     },
     //更新密码
     handleUpdatePwd(formName) {
@@ -247,7 +261,7 @@ export default {
         }
       });
     },
-    getUserInfo(){
+    getUserInfo() {
       getInfo(this.user.userId).then(response => {
         this.userInfo = response.data;
         //初始化 userForm数据
@@ -288,7 +302,6 @@ export default {
         });
       });
     },
-
     // 上传前格式和图片大小限制
     beforeAvatarUpload(file) {
       const type =

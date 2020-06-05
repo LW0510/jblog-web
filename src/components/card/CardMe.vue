@@ -27,6 +27,7 @@
 <script>
 import Clock from "vue-clock2";
 import { getToken } from "@/request/auth";
+import {getInfo} from "@/api/user"
 export default {
   name: "CardMe",
   components: { Clock },
@@ -34,22 +35,14 @@ export default {
     return {
       // 时钟相关
       timer: "", //定义一个定时器的变量
-      currentTime: "" // 获取当前时间
+      currentTime: "" ,// 获取当前时间
+
+      authorInfo:{
+        nickName:'',
+        addr:'',
+        label:''
+      }
     };
-  },
-  computed: {
-    authorInfo() {
-      let nickName = this.$store.state.name;
-      let addr = this.$store.state.addr;
-      let label = this.$store.state.label;
-      let phone = this.$store.state.phone;
-      return {
-        nickName,
-        addr,
-        label,
-        phone
-      };
-    }
   },
   methods: {
     showTool(flag) {
@@ -93,24 +86,37 @@ export default {
           ": " +
           new Date().getSeconds();
       }, 1000);
+    },
+
+    getCurrInfo(){
+      if(getToken()){
+        let userId = this.$store.state.id;
+        getInfo(userId).then(response => {
+         this.authorInfo.nickName = response.data.nickname;
+           this.authorInfo.addr = response.data.addr;
+           this.authorInfo.label = response.data.label;
+        });
+      }
     }
+
   },
     created() {
     //初始化时钟
     if (!getToken()) {
       this.initClock();
     }
+    this.getCurrInfo();
   },
+
   beforeDestroy() {
     if (this.timer) {
       clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
     }
   }
-};
+   }
 </script>
 
 <style scoped>
-
 .my-clock{
   text-align: center;
 }

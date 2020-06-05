@@ -45,7 +45,7 @@
             </p>
 
             <!-- <div class="forget-pwd">
-              
+
             </div>-->
           </el-form-item>
 
@@ -78,7 +78,7 @@ export default {
       codeUrl: "",
       //用户表单
       userForm: {
-        username: "happy",
+        username: "shadow",
         password: "admin123",
         code: "",
         uuid: ""
