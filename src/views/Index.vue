@@ -9,8 +9,8 @@
         <card-me class="me-area"></card-me>
         <card-tag :tags="hotTags"></card-tag>
         <card-article cardHeader="最热文章" :articles="hotArticles"></card-article>
-        <card-archive cardHeader="文章归档" :archives="archives"></card-archive>
-        <card-article cardHeader="最新文章" :articles="newArticles"></card-article>
+        <card-archive v-if="articleArchiveDisplay" cardHeader="文章归档" :archives="archives"></card-archive>
+        <card-article v-if="newArticleDisplay" cardHeader="最新文章" :articles="newArticles"></card-article>
       </el-aside>
     </el-container>
   </div>
@@ -34,6 +34,9 @@ export default {
   name: "Index",
   data() {
     return {
+      newArticleDisplay: false,
+      articleArchiveDisplay: false,
+
       hotTags: [],
       hotArticles: [],
       newArticles: [],
@@ -65,7 +68,7 @@ export default {
       let that = this;
       getHotArtices()
         .then(data => {
-          that.hotArticles = data.data;
+          that.hotArticles = data.rows;
         })
         .catch(error => {
           if (error !== "error") {
@@ -79,9 +82,10 @@ export default {
     },
     getNewArtices() {
       let that = this;
-      getNewArtices()
+      let userId = this.$store.state.id;
+      getNewArtices(userId)
         .then(data => {
-          that.newArticles = data.data;
+          that.newArticles = data.rows;
         })
         .catch(error => {
           if (error !== "error") {
@@ -125,18 +129,18 @@ export default {
         });
     }
 
-
-
-
-
   },
   created() {
     //刷新页面，获取用户信息（如果当前用户之前已经登录过）
     if (getToken()) {
+      this.newArticleDisplay = true;
+      this.articleArchiveDisplay = true;
       this.getUserInfo();
     }
     this.getHotArtices();
-    this.getNewArtices();
+    if(getToken()){
+this.getNewArtices();
+    }
     this.getHotTags();
     this.listArchives();
   }

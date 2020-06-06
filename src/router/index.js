@@ -12,15 +12,19 @@ import BlogView from '@/views/blog/BlogView'
 import BlogAllCategoryTag from '@/views/blog/BlogAllCategoryTag'
 import BlogCategoryTag from '@/views/blog/BlogCategoryTag'*/
 
-import {Message} from 'element-ui';
-import {getToken} from '@/request/auth'
+import {
+  Message
+} from 'element-ui';
+import {
+  getToken
+} from '@/request/auth'
 import store from '@/store'
 
 Vue.use(Router)
 
 const router = new Router({
-  routes: [
-    {
+  routes: [{
+      name: 'write',
       path: '/write/:id?',
       component: r => require.ensure([], () => r(require('@/views/blog/BlogWrite')), 'blogwrite'),
       meta: {
@@ -29,26 +33,39 @@ const router = new Router({
     },
     {
       path: '',
-      name: 'Home',
+      name: 'home',
       component: Home,
-      children: [
-        {
+      children: [{
+          name: '',
           path: '/',
           component: r => require.ensure([], () => r(require('@/views/Index')), 'index')
         },
         {
+          name: 'log',
           path: '/log',
-          component: r => require.ensure([], () => r(require('@/views/Log')), 'log')
+          component: r => require.ensure([], () => r(require('@/views/Log')), 'log'),
+          meta: {
+            requireLogin: true
+          },
         },
         {
+          name: 'archives',
           path: '/archives/:year?/:month?',
-          component: r => require.ensure([], () => r(require('@/views/blog/BlogArchive')), 'archives')
+          component: r => require.ensure([], () => r(require('@/views/blog/BlogArchive')), 'archives'),
+          meta: {
+            requireLogin: true
+          },
         },
         {
+          name: 'feedback',
           path: '/feedback',
-          component: r => require.ensure([], () => r(require('@/views/MessageBoard')), 'messageboard')
+          component: r => require.ensure([], () => r(require('@/views/MessageBoard')), 'messageboard'),
+          meta: {
+            requireLogin: true
+          },
         },
         {
+          name: 'view',
           path: '/view/:id',
           component: r => require.ensure([], () => r(require('@/views/blog/BlogView')), 'blogview')
         },
@@ -61,9 +78,11 @@ const router = new Router({
           component: r => require.ensure([], () => r(require('@/views/blog/BlogCategoryTag')), 'blogcategorytag')
         },
         {
+          name: 'myhome',
           path: '/myhome',
           component: r => require.ensure([], () => r(require('@/views/user/MyHome')), 'myhome')
-        },{
+        }, {
+          name: 'profile',
           path: '/profile',
           component: r => require.ensure([], () => r(require('@/views/user/profile')), 'profile')
         }
@@ -76,13 +95,16 @@ const router = new Router({
     {
       path: '/register',
       component: r => require.ensure([], () => r(require('@/views/Register')), 'register')
-    },{
+    }, {
       path: '/forgetpwd',
       component: r => require.ensure([], () => r(require('@/views/user/ForgetPwd')), 'forgetpwd')
     }
   ],
   scrollBehavior(to, from, savedPosition) {
-    return {x: 0, y: 0}
+    return {
+      x: 0,
+      y: 0
+    }
   }
 })
 
@@ -92,7 +114,9 @@ router.beforeEach((to, from, next) => {
 
   if (getToken()) { // 有token
     if (to.path === '/login') {
-      next({path: '/'})
+      next({
+        path: '/'
+      })
     } else {
       // if (store.state.username.length === 0) {
       //   store.dispatch('getUserInfo').then(data => { //获取用户信息
@@ -106,7 +130,7 @@ router.beforeEach((to, from, next) => {
       //     })
       //   })
       // } else {
-        next()
+      next()
       // }
     }
   } else { // 无token
@@ -116,12 +140,20 @@ router.beforeEach((to, from, next) => {
         showClose: true,
         message: '请先登录哦'
       })
+
+      //回到之前路由地址
+      next({
+        path: from.path
+      });
+
     } else {
+
       next();
     }
   }
-}
-)
+})
+
+  
 
 
 export default router

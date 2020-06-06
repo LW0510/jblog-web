@@ -88,7 +88,8 @@
 
   .el-aside {
     position: fixed;
-    left: 200px;
+    left: 160px;
+    top:119px;
     margin-right: 50px;
     width: 150px !important;
   }

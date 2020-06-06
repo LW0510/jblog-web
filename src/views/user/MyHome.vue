@@ -144,6 +144,7 @@ export default {
         orderField: "create_time",
         order: "desc"
       };
+      this.queryParams.userId = this.$store.state.id;
       articleList(this.queryParams, pageParams).then(response => {
         this.articleList = response.rows;
         this.total = response.totalCount;

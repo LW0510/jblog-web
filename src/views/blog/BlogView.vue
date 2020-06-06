@@ -13,7 +13,7 @@
           <h1 class="me-view-title">{{article.title}}</h1>
           <div class="me-view-author">
             <a class="">
-              <img class="me-view-picture" :src="article.author.avatar"></img>
+              <img class="me-view-picture" :src="article.author.avatar" @click="handleSkip"/>
             </a>
             <div class="me-view-info">
               <span>{{article.author.nickname}}</span>
@@ -213,7 +213,13 @@
       },
       commentCountsIncrement() {
         this.article.commentCounts += 1
-      }
+      },
+
+          
+    // 跳转到目标用户主页
+    handleSkip(){
+      this.$router.push({path: '/', query:{userId: 1}})
+    }
     },
     //组件内的守卫 调整body的背景色
     beforeRouteEnter(to, from, next) {

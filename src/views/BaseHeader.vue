@@ -6,6 +6,12 @@
           <img src="../assets/img/logo2_1.jpg" />
         </router-link>
       </el-col>
+      <!-- 返回我的首页 -->
+      <el-col :span="1" v-if="backDisplay">
+        <div class="back">
+          <el-button type="text" @click="handleBack">返回</el-button>
+        </div>
+      </el-col>
 
       <el-col v-if="!simple" :span="12">
         <el-menu
@@ -29,7 +35,6 @@
           </el-col>
         </el-menu>
       </el-col>
-
       <template v-else>
         <slot></slot>
       </template>
@@ -51,13 +56,13 @@
                 <img class="me-header-picture" :src="user.avatar" />
               </template>
               <el-row>
-                <el-menu-item index='/myhome' >
+                <el-menu-item index="/myhome">
                   <i class="el-icon-user"></i>我的主页
                 </el-menu-item>
               </el-row>
 
               <el-row>
-                <el-menu-item index='/profile'>
+                <el-menu-item index="/profile">
                   <i class="el-icon-user"></i>编辑资料
                 </el-menu-item>
               </el-row>
@@ -85,7 +90,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      backDisplay: false
+    };
   },
   computed: {
     user() {
@@ -104,19 +111,27 @@ export default {
         .dispatch("logout")
         .then(() => {
           this.$router.push({ path: "/" });
-                     location.reload() // 为了重新实例化vue-router对象 避免bug
+          location.reload(); // 为了重新实例化vue-router对象 避免bug
         })
         .catch(error => {
           if (error !== "error") {
             that.$message({ message: error, type: "error", showClose: true });
           }
         });
+    },
+    handleBack(){
+      this.backDisplay = false
     }
-  }
+  },
 };
 </script>
 
 <style>
+.back {
+  text-align: center;
+  margin-top: 18px;
+}
+
 .el-header {
   position: fixed;
   z-index: 1024;

@@ -28,10 +28,13 @@ export function getHotArtices() {
   })
 }
 
-export function getNewArtices() {
+export function getNewArtices(userId) {
   return request({
     url: '/article/new',
-    method: 'get'
+    method: 'get',
+    params: {
+      userId
+    }
   })
 }
 
