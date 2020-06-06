@@ -160,6 +160,10 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
 
+              this.id = undefined;
+      this.userId = undefined;
+      this.content = undefined;
+      this.createdAt = undefined;
       this.editFlag = false;
       const id = row.id || this.ids;
       getRecord(id).then(response => {
@@ -167,10 +171,7 @@ export default {
         this.editFlag = true;
         this.open = true;
         this.title = "修改日志";
-              this.id = undefined;
-      this.userId = undefined;
-      this.content = undefined;
-      this.createdAt = undefined;
+
       });
     },
     handleQuery(row) {
